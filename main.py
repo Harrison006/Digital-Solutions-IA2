@@ -16,3 +16,4 @@ class MainWindow
         # Init App vars
         Self.db = Datastore()
 
+# Ui elements
