@@ -22,9 +22,6 @@ class Datastore():
                 """
 # Get methods
 
-
-
 # Add methods
-
 
 # Update methods
