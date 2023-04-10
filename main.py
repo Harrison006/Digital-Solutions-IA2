@@ -15,3 +15,5 @@ class MainWindow:
         self.ui.setupUi(self.main_win)
         # Init App vars
         Self.db = Datastore()
+
+# Ui elements
