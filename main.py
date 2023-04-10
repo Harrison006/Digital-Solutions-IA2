@@ -14,10 +14,4 @@ class MainWindow:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
         # Init App vars
-<<<<<<< HEAD
         Self.db = Datastore()
-=======
-        Self.db = Datastore()
-
-# Ui elements
->>>>>>> refs/remotes/origin/main
