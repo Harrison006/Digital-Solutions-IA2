@@ -19,12 +19,9 @@ class Datastore():
                 """
                 CREATE TABLE patient(
                     name TEXT NOT NULL)
-                """
+                """)
 # Get methods
 
-
-
 # Add methods
-
 
 # Update methods
