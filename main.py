@@ -7,6 +7,7 @@ from PyQt6.QtGui import QPixmap
 from Ui_hangman import Ui_MainWindow
 from datastore import Datastore
 
+
 class MainWindow:
     def __init__(self):
         # Init UI elements
@@ -15,5 +16,6 @@ class MainWindow:
         self.ui.setupUi(self.main_win)
         # Init App vars
         Self.db = Datastore()
+
 
 # Ui elements
