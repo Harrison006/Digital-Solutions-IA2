@@ -156,7 +156,7 @@ class Datastore:
                         )
 
                 self.connection.commit()
-        with open("patient_data.csv", encoding="utf-8") as patient_data:
+        with open("patient_data_2023.csv", encoding="utf-8") as patient_data:
             csv_reader = csv.DictReader(patient_data, delimiter=",")
 
             for record in csv_reader:
