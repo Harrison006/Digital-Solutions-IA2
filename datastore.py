@@ -4,8 +4,10 @@ from PyQt6.QtCore import QDateTime, QDate, QTime, Qt
 
 
 class Datastore:
-    def __init__(self, db_file_name: str):
-        self.connection = sqlite3.connect(db_file_name)
+    def __init__(self):
+        db_file = "road_to_recovery_last.db"
+        self.connection = sqlite3.connect(db_file)
+
         self.cursor = self.connection.cursor()
 
     def __del__(self):
@@ -80,7 +82,7 @@ class Datastore:
             exercise_id TEXT NOT NULL,
             reps TEXT NOT NULL,
             PRIMARY KEY (exercise_regime_id,exercise_id),
-            FOREIGN KEY (exercise_regime_id) REFERENCES exercise_regime_tb(exercise_regime_id),
+           FOREIGN KEY (exercise_regime_id) REFERENCES exercise_regime_tb(exercise_regime_id),
             FOREIGN KEY (exercise_id) REFERENCES exercises_tb(exercise_id)
             )
             """
