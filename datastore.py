@@ -80,7 +80,7 @@ class Datastore:
             exercise_id TEXT NOT NULL,
             reps TEXT NOT NULL,
             PRIMARY KEY (exercise_regime_id,exercise_id),
-           FOREIGN KEY (exercise_regime_id) REFERENCES exercise_regime_tb(exercise_regime_id),
+            FOREIGN KEY (exercise_regime_id) REFERENCES exercise_regime_tb(exercise_regime_id),
             FOREIGN KEY (exercise_id) REFERENCES exercises_tb(exercise_id)
             )
             """
