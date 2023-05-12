@@ -1,12 +1,12 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget
+from PyQt6.QtWidgets import QApplication, QMainWindow
 from ui import Ui_MainWindow
 from datastore import Datastore
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 import sys
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore
 from PyQt6.QtCore import Qt
 
 
