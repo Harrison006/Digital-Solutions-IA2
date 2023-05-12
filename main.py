@@ -1,18 +1,43 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow
-from other import Ui_MainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget
+from ui import Ui_MainWindow
 from datastore import Datastore
-from PyQt6.QtCore import QCoreApplication
+
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
+import sys
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import Qt
+
+
+class TableModel(QtCore.QAbstractTableModel):
+    def __init__(self, data):
+        super(TableModel, self).__init__()
+        self._data = data
+
+    def data(self, index, role):
+        if role == Qt.ItemDataRole.DisplayRole:
+            # See below for the nested-list data structure.
+            # .row() indexes into the outer list,
+            # .column() indexes into the sub-list
+            return self._data[index.row()][index.column()]
+
+    def rowCount(self, index):
+        # The length of the outer list.
+        return len(self._data)
+
+    def columnCount(self, index):
+        # The following takes the first sub-list, and returns
+        # the length (only works if all rows are an equal length)
+        return len(self._data[0])
 
 
 class MainWindow:
     def __init__(self):
-
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
-        self.db = Datastore("road_to_recovery224trp.db")
+        self.db = Datastore("db.db")
 
         clinician_id = 1
         clinician = self.db.get_clinicians(clinician_id)
@@ -21,14 +46,19 @@ class MainWindow:
             self.ui.comboBox_2.addItem(clinician)
             self.ui.comboBox_46.addItem(clinician)
             appointments = self.db.get_appointments_clinician(clinician_id)
+            clinician_id += 1
 
             for record in appointments:
                 self.ui.comboBox_47.addItem(record)
 
-            clinician_id += 1
+        print(self.ui.record_exercise_regime_date.date())
+        data = self.db.get_all_exercise_information()
+        self.model = TableModel(data)
+        self.ui.tableView_3.setModel(self.model)
 
         """ui """
         self.signals()
+        self.display_gallows()
 
     def show(self):
         self.main_win.show()
@@ -134,6 +164,15 @@ class MainWindow:
         self.ui.pushButton_sign_out.clicked.connect(
             lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.log_in_page)
         )
+        self.ui.pushButton_get_patient_id.clicked.connect(
+            lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.get_patient_id)
+        )
+        self.ui.pushButton_view_exercises.clicked.connect(
+            lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.exercise_viewer)
+        )
+        self.ui.pushButton_65.clicked.connect(
+            lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.clinician_home_page)
+        )
         self.ui.pushButton_8.clicked.connect(self.submit_patient_info)
         self.ui.lg_login_btn.clicked.connect(self.login)
         self.ui.pushButton_11.clicked.connect(self.book_appointment)
@@ -158,6 +197,30 @@ class MainWindow:
         self.ui.pushButton_63.clicked.connect(self.add_clinician)
         self.ui.comboBox_46.currentTextChanged.connect(self.show_appointments)
         self.ui.comboBox_47.currentTextChanged.connect(self.show_time)
+        self.ui.comboBox_22.currentTextChanged.connect(self.display_old_regime)
+        self.ui.pushButton_13.clicked.connect(self.clear_regime)
+        self.ui.pushButton_retirieve_patient_id.clicked.connect(self.get_patient_id)
+
+    def display_gallows(self):
+        file_name = f"./digital_photos/Road_to_Recovery_logo_1.png"
+        gallow = QPixmap(file_name)
+        self.ui.label_67.setPixmap(gallow)
+        self.ui.label_69.setPixmap(gallow)
+        self.ui.label_65.setPixmap(gallow)
+        self.ui.label_114.setPixmap(gallow)
+        self.ui.label_112.setPixmap(gallow)
+        self.ui.label_110.setPixmap(gallow)
+        self.ui.label_108.setPixmap(gallow)
+        self.ui.label_106.setPixmap(gallow)
+        self.ui.label_96.setPixmap(gallow)
+        self.ui.label_90.setPixmap(gallow)
+        self.ui.label_85.setPixmap(gallow)
+        self.ui.label_82.setPixmap(gallow)
+        self.ui.label_77.setPixmap(gallow)
+        self.ui.label_231.setPixmap(gallow)
+        self.ui.label_234.setPixmap(gallow)
+        self.ui.label_243.setPixmap(gallow)
+        self.ui.label_74.setPixmap(gallow)
 
     # ----- slots ----- #
 
@@ -168,7 +231,6 @@ class MainWindow:
 
         if stored_password != None:
             if stored_password == password:
-
                 self.ui.stackedWidget.setCurrentWidget(self.ui.clinician_home_page)
             else:
                 self.ui.lg_message_lb.setText("Incorrect Password")
@@ -184,7 +246,6 @@ class MainWindow:
             if stored_password == password:
                 admin = int(self.db.get_admin_staff(username, password))
                 if admin == 1:
-
                     self.ui.stackedWidget.setCurrentWidget(self.ui.practice_admin_menu)
                 else:
                     pass
@@ -255,7 +316,7 @@ class MainWindow:
         appointment_date = str(appointment_date)
         appointment_time = self.ui.physio_appointment_time_lbl_2.text()
         shoulder_abductors_score = self.ui.comboBox_7.currentText()
-        elbow_flexors_score = self.ui.comboBox8.currentText()
+        elbow_flexors_score = self.ui.comboBox_8.currentText()
         elbow_extensors_score = self.ui.comboBox_9.currentText()
         wrist_extensors_score = self.ui.comboBox_10.currentText()
         finger_flexors_score = self.ui.comboBox_11.currentText()
@@ -338,10 +399,11 @@ class MainWindow:
             )
 
         except Exception:
+            self.ui.physio_appointment_date_lbl_2.clear()
+            self.ui.physio_appointment_time_lbl_2.clear()
             pass
 
     def show_appointment_dates_2(self):
-
         try:
             int(self.ui.physio_patient_id_lbl.text())
             patient_id = self.ui.physio_patient_id_lbl.text()
@@ -359,6 +421,8 @@ class MainWindow:
             )
 
         except Exception:
+            self.ui.physio_appointment_date_lbl.clear()
+            self.ui.physio_appointment_time_lbl.clear()
             pass
 
     def show_appointment_dates_3(self):
@@ -380,6 +444,8 @@ class MainWindow:
             )
 
         except Exception:
+            self.ui.physio_appointment_date_lbl_3.clear()
+            self.ui.physio_appointment_time_lbl_3.clear()
             pass
 
     def show_previous_appointments(self):
@@ -391,7 +457,6 @@ class MainWindow:
 
             appointment_date = self.db.get_appointments(patient_id)
             while start < actual_amount:
-
                 self.ui.comboBox_15.addItem(appointment_date[start])
                 start += 1
 
@@ -402,7 +467,6 @@ class MainWindow:
 
             appointment_date = self.db.get_appointments(patient_id)
             while start < actual_amount:
-
                 start += 1
                 self.ui.comboBox_15.clear()
 
@@ -476,25 +540,36 @@ class MainWindow:
             self.db.make_regime(patient_id, full_date)
 
             self.ui.pushButton_4.setEnabled(False)
+            self.ui.record_exercise_regime_patient_id.setEnabled(False)
+            self.ui.record_exercise_regime_date.setEnabled(False)
         except Exception:
             pass
 
     def insert_excercises(self):
-        exercise_name = self.ui.record_exercise_regime_exercise_name.text()
-        reps = self.ui.spinBox.value()
-        int(self.ui.record_exercise_regime_patient_id.text())
-        patient_id = self.ui.record_exercise_regime_patient_id.text()
-        date_year = self.ui.record_exercise_regime_date.date().year()
-        date_year = str(date_year)
-        date_month = self.ui.record_exercise_regime_date.date().month()
-        date_month = str(date_month)
-        date_day = self.ui.record_exercise_regime_date.date().day()
-        date_day = str(date_day)
-        full_date = date_day + "/" + date_month + "/" + date_year
-        regime_id = self.db.get_regime_id(patient_id, full_date)
-        self.db.insert_excerise_regime(regime_id, exercise_name, reps)
-        exercises = self.db.get_exercises(regime_id)
-        self.ui.tableView_2.setModel(exercises)
+        try:
+            exercise_name = self.ui.record_exercise_regime_exercise_name.text()
+            exercise_id = self.db.get_exercise_id(exercise_name)
+            print(exercise_id)
+            reps = self.ui.spinBox.value()
+            int(self.ui.record_exercise_regime_patient_id.text())
+            patient_id = self.ui.record_exercise_regime_patient_id.text()
+            date_year = self.ui.record_exercise_regime_date.date().year()
+            date_year = str(date_year)
+            date_month = self.ui.record_exercise_regime_date.date().month()
+            date_month = str(date_month)
+            date_day = self.ui.record_exercise_regime_date.date().day()
+            date_day = str(date_day)
+            full_date = date_day + "/" + date_month + "/" + date_year
+            regime_id = self.db.get_regime_id(patient_id, full_date)
+            self.db.insert_excerise_regime(regime_id, exercise_id, reps)
+            exercises = self.db.get_exercises(regime_id)
+            print(exercises)
+            data = exercises
+            self.model = TableModel(data)
+            self.ui.tableView_2.setModel(self.model)
+            self.ui.error_adding_regime_lbl.setText("")
+        except:
+            self.ui.error_adding_regime_lbl.setText("Exercise Not In System")
 
     def date_get(self):
         try:
@@ -504,26 +579,108 @@ class MainWindow:
 
             appointment_date = self.db.get_previous_regimes(patient_id)
             while start < actual_amount:
-
                 self.ui.comboBox_22.addItem(appointment_date[start])
                 start += 1
         except Exception:
-            pass
+            self.ui.comboBox_22.clear()
+            data = [""]
+            self.model = TableModel(data)
+            self.ui.tableView.setModel(self.model)
 
     def show_appointments(self):
+        self.ui.comboBox_47.clear()
+
         clinician_name = self.ui.comboBox_46.currentText()
         clinician_id = self.db.get_clinician_id(clinician_name)
         appointments = self.db.get_appointments_clinician(clinician_id)
 
+        clinician_type = self.db.get_clinician_type(clinician_id)
+        if clinician_type == 1:
+            clinician_type = "Physio"
+        elif clinician_type == 2:
+            clinician_type = "OT"
+
+        elif clinician_type == 3:
+            clinician_type = "Speech"
+        self.ui.clinciian_type_lbl.setText(clinician_type)
+        counter = 1
+
         for record in appointments:
             self.ui.comboBox_47.addItem(record)
+            data = ["", ""]
+            self.model = TableModel(data)
+            self.ui.tableView_2.setModel(self.model)
+            if counter == 1:
+                try:
+                    time = self.db.get_time(record, clinician_id)
+                    print(time)
+                    self.ui.label_248.text(time)
+                except Exception:
+                    pass
+
+                counter += 1
+            else:
+                pass
 
     def show_time(self):
-        clinician_name = self.ui.comboBox_46.currentText()
-        clinician_id = self.db.get_clinician_id(clinician_name)
-        appointments = self.ui.comboBox_47.currentText()
-        time = self.db.get_appoint_time(clinician_id, appointments)
-        self.ui.label_248.setText(time)
+        try:
+            clinician_name = self.ui.comboBox_46.currentText()
+            clinician_id = self.db.get_clinician_id(clinician_name)
+            appointments = self.ui.comboBox_47.currentText()
+            time = self.db.get_appoint_time(clinician_id, appointments)
+            clinician_type = self.db.get_clinician_type(clinician_id)
+            if clinician_type == 1:
+                clinician_type = "OT"
+            elif clinician_type == 2:
+                clinician_type == ("Physio")
+            elif clinician_type == 3:
+                clinician_type == ("Speech")
+            self.ui.label_248.setText(time)
+            self.ui.clinciian_type_lbl.setText(clinician_type)
+        except Exception:
+            pass
+
+    def display_old_regime(self):
+        try:
+            patient_id = int(self.ui.previous_exercises_patient_id.text())
+            date = self.ui.comboBox_22.currentText()
+            patient_id = self.ui.previous_exercises_patient_id.text()
+            regime_id = self.db.get_regime_id_2(date, patient_id)
+            exercises = self.db.get_exercises(regime_id)
+            data = exercises
+            self.model = TableModel(data)
+            self.ui.tableView.setModel(self.model)
+        except Exception:
+            pass
+
+    def clear_regime(self):
+        self.ui.record_exercise_regime_patient_id.clear()
+
+        self.ui.record_exercise_regime_exercise_name.clear()
+        self.ui.spinBox.setValue(0)
+        data = [""]
+        self.model = TableModel(data)
+        self.ui.tableView_2.setModel(self.model)
+        self.ui.record_exercise_regime_patient_id.setEnabled(True)
+        self.ui.record_exercise_regime_date.setEnabled(True)
+
+    def get_patient_id(self):
+        first_name = self.ui.get_patient_id_first_name.text()
+        last_name = self.ui.get_patient_id_last_name.text()
+
+        try:
+            patient_id = self.db.get_patient_id_2(first_name, last_name)
+            print(patient_id)
+            patient_id = str(patient_id)
+
+            self.ui.previous_appointments_patient_id.setText(patient_id)
+            self.ui.previous_exercises_patient_id.setText(patient_id)
+            self.ui.physio_patient_id_lbl.setText(patient_id)
+            self.ui.physio_patient_id_lbl_2.setText(patient_id)
+            self.ui.physio_patient_id_lbl_3.setText(patient_id)
+            self.ui.record_exercise_regime_patient_id.setText(patient_id)
+        except Exception:
+            self.ui.label_error_patient_id.setText("No user found")
 
 
 if __name__ == "__main__":

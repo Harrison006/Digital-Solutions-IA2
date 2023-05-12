@@ -5,7 +5,6 @@ from PyQt6.QtCore import QDateTime, QDate, QTime, Qt
 
 class Datastore:
     def __init__(self, db_file_name: str):
-
         self.connection = sqlite3.connect(db_file_name)
         self.cursor = self.connection.cursor()
 
@@ -16,7 +15,6 @@ class Datastore:
         self.connection.close()
 
     def build_db(self):
-
         self.cursor.execute(
             """
             CREATE TABLE clinician_tb(
@@ -140,7 +138,6 @@ class Datastore:
         self.connection.commit()
 
     def populate_db(self):
-
         with open("exercise_data.csv", encoding="utf-8") as exercise_data:
             csv_reader = csv.DictReader(exercise_data, delimiter=",")
 
@@ -168,7 +165,6 @@ class Datastore:
 
                     itd = int(itd)
                     if itd not in self.get_patient_id1():
-
                         self.add_patient_data(
                             first_name,
                             last_name,
@@ -461,7 +457,6 @@ class Datastore:
         self.connection.commit()
 
     def add_appointment_details(self, first_name, last_name, clinician, date, time):
-
         patient_id = self.get_patient_id(first_name, last_name)
         print(patient_id)
         clinician_id = self.get_clinician_id(clinician)
@@ -491,7 +486,6 @@ class Datastore:
         finger_flexors_score,
         hand_intrinsics_score,
     ):
-
         appointment_id = self.get_appointment_id(appointment_date, patient_id)
         self.cursor.execute(
             """
