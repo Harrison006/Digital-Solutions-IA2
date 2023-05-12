@@ -331,7 +331,7 @@ class Ui_MainWindow(object):
         self.patientlastname.setObjectName("patientlastname")
 
 
-        self.pushButton_10 = QtWidgets.QPushButton(self.appointment_details)
+       self.pushButton_10 = QtWidgets.QPushButton(self.appointment_details)
         self.pushButton_10.setGeometry(QtCore.QRect(650, 30, 113, 32))
         self.pushButton_10.setObjectName("pushButton_10")
         self.pushButton_11 = QtWidgets.QPushButton(self.appointment_details)
@@ -585,7 +585,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(76,95,122);")
         self.comboBox_8.setObjectName("comboBox_8")
         self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
+       self.comboBox_8.addItem("")
         self.comboBox_8.addItem("")
         self.comboBox_8.addItem("")
         self.comboBox_8.addItem("")
@@ -983,7 +983,7 @@ class Ui_MainWindow(object):
         self.label_62.setObjectName("label_62")
         self.label_63 = QtWidgets.QLabel(self.previous_appointments)
         self.label_63.setGeometry(QtCore.QRect(20, 280, 141, 20))
-        self.label_63.setStyleSheet("color: rgb(255, 255, 255);\n"
+       self.label_63.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: rgb(037,040,080);")
         self.label_63.setObjectName("label_63")
         self.label_64 = QtWidgets.QLabel(self.previous_appointments)
@@ -1012,7 +1012,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(037,040,080);")
         self.hip_flexor_score_lbl.setObjectName("hip_flexor_score_lbl")
         self.dysphonia_score_lbl = QtWidgets.QLabel(self.previous_appointments)
-        self.dysphonia_score_lbl.setGeometry(QtCore.QRect(461, 310, 16, 21))
+       self.dysphonia_score_lbl.setGeometry(QtCore.QRect(461, 310, 16, 21))
         self.dysphonia_score_lbl.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: rgb(037,040,080);")
         self.dysphonia_score_lbl.setObjectName("dysphonia_score_lbl")
@@ -1071,7 +1071,7 @@ class Ui_MainWindow(object):
         self.label_80.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: rgb(037,040,080);")
         self.label_80.setObjectName("label_80")
-        self.judgment_score_lbl = QtWidgets.QLabel(self.previous_appointments)
+       self.judgment_score_lbl = QtWidgets.QLabel(self.previous_appointments)
         self.judgment_score_lbl.setGeometry(QtCore.QRect(461, 400, 16, 21))
         self.judgment_score_lbl.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: rgb(037,040,080);")
@@ -1632,7 +1632,7 @@ class Ui_MainWindow(object):
         self.label_9.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:18pt;\">Suburb</span></p></body></html>"))
         self.label_10.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:18pt;\">Gender</span></p></body></html>"))
         self.comboBox.setItemText(0, _translate("MainWindow", "male"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "female"))
+       self.comboBox.setItemText(1, _translate("MainWindow", "female"))
         self.comboBox.setItemText(2, _translate("MainWindow", "bigender"))
         self.comboBox.setItemText(3, _translate("MainWindow", "agender"))
         self.comboBox.setItemText(4, _translate("MainWindow", "polygender"))
