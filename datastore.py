@@ -4,8 +4,8 @@ from PyQt6.QtCore import QDateTime, QDate, QTime, Qt
 
 
 class Datastore:
-    def __init__(self):
-        db_file = "road_to_recovery_last.db"
+    def __init__(self, db_file):
+
         self.connection = sqlite3.connect(db_file)
 
         self.cursor = self.connection.cursor()
@@ -82,7 +82,7 @@ class Datastore:
             exercise_id TEXT NOT NULL,
             reps TEXT NOT NULL,
             PRIMARY KEY (exercise_regime_id,exercise_id),
-           FOREIGN KEY (exercise_regime_id) REFERENCES exercise_regime_tb(exercise_regime_id),
+            FOREIGN KEY (exercise_regime_id) REFERENCES exercise_regime_tb(exercise_regime_id),
             FOREIGN KEY (exercise_id) REFERENCES exercises_tb(exercise_id)
             )
             """
@@ -152,7 +152,7 @@ class Datastore:
                         )
 
                 self.connection.commit()
-        with open("patient_data.csv", encoding="utf-8") as patient_data:
+        with open("patient_data_2023.csv", encoding="utf-8") as patient_data:
             csv_reader = csv.DictReader(patient_data, delimiter=",")
 
             for record in csv_reader:
@@ -412,7 +412,7 @@ class Datastore:
                                         elbow_flexors_score,
                                         elbow_extensors_score,
                                         wrist_extensors_score,
-                                       finger_flexors_score,
+                                        finger_flexors_score,
                                         hand_intrinsics_score,
                                         appointment_id)
             VALUES(:shoulder_abductors_score,
@@ -514,8 +514,8 @@ class Datastore:
         appointment_id = self.get_appointment_id(appointment_date, patient_id)
         self.cursor.execute(
             """
-               INSERT INTO physio_assessments_score_tb(hip_flexor_score,knee_flexor_score,dorsiflexor_score,plantar_flexor_score,appointment_id) 
-               VALUES(:hip_flexor_score,:knee_flexor_score,:dorsiflexor_score,:plantar_flexor_score,:appointment_id)
+                INSERT INTO physio_assessments_score_tb(hip_flexor_score,knee_flexor_score,dorsiflexor_score,plantar_flexor_score,appointment_id) 
+                VALUES(:hip_flexor_score,:knee_flexor_score,:dorsiflexor_score,:plantar_flexor_score,:appointment_id)
             """,
             {
                 "hip_flexor_score": hip_flexor_score,
