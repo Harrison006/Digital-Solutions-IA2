@@ -262,7 +262,7 @@ class Datastore:
             processed.append(results[0])
         return processed
 
-    def get_patient_id1(self):
+    def get_all_patient_id(self):
         self.cursor.execute(
             """
             SELECT patient_id
