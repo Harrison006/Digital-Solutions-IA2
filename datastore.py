@@ -141,8 +141,8 @@ class Datastore:
     # Populating the database with existing excel spreadsheets
 
     def populate_db(self):
-        with open("exercise_data.csv", encoding="utf-8") as exercise_data:
-            csv_reader = csv.DictReader(exercise_data, delimiter=",")
+        with open("exercise_data.csv", encoding="utf-8") as exercise_data: # opening the csv file and defining it as :exercise data
+            csv_reader = csv.DictReader(exercise_data, delimiter=",") # making it intelligible by the code
 
             for record in csv_reader:
                 if record["id"]:
@@ -150,19 +150,19 @@ class Datastore:
                         self.add_exercises(
                             record["name"],
                             record["target"],
-                            record["equipment"],
+                            record["equipment"],           # parsing the data from the CSV File provided in the data package 
                             record["body_part"],
                             record["image"],
                         )
 
                 self.connection.commit()
-        with open("patient_data_2023.csv", encoding="utf-8") as patient_data:
-            csv_reader = csv.DictReader(patient_data, delimiter=",")
+        with open("patient_data_2023.csv", encoding="utf-8") as patient_data: # opening the csv file and defining it as :patient data
+            csv_reader = csv.DictReader(patient_data, delimiter=",") # making it intelligible by the code
 
             for record in csv_reader:
                 if record["id"]:
                     first_name = record["first_name"]
-                    last_name = record["last_name"]
+                    last_name = record["last_name"]            
                     name = record["first_name"] + record["last_name"]
                     itd = record["id"]
 
@@ -189,15 +189,15 @@ class Datastore:
                     try:
                         self.add_appointment(date, time, clinician_id, patient_id)
                     except Exception:
-                        with open("error_log.txt", "a", encoding="utf-8") as log:
-                            log.write(f"idek\n")
+                        with open("error_log.txt", "a", encoding="utf-8") as log:     # trying a function to add in patient data with an appointment
+                            log.write(f"Nope\n")
                     appointment_id = self.get_appointment_id(date, patient_id)
 
                 if record["id"]:
                     self.add_appointment_physio_data(
                         record["hip_flexors"],
                         record["knee_extensors"],
-                        record["dorsiflexors"],
+                        record["dorsiflexors"],             # adding appointment data
                         record["plantar_flexors"],
                         appointment_id,
                     )
