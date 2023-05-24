@@ -197,15 +197,15 @@ class Datastore:
                     self.add_appointment_physio_data(
                         record["hip_flexors"],
                         record["knee_extensors"],
-                        record["dorsiflexors"],             # adding appointment data
-                        record["plantar_flexors"],
+                        record["dorsiflexors"],             # parsing appointment physio data
+                        record["plantar_flexors"],          # this data is has already been cleaned therefor no error correcting will be needed
                         appointment_id,
                     )
                 if record["id"]:
                     self.add_appointment_ot_data(
                         record["shoulder_abductors"],
                         record["elbow_flexors"],
-                        record["elbow_extensors"],
+                        record["elbow_extensors"],      # all this data is numeric there are no reasons for 
                         record["wrist_extensors"],
                         record["finger_flexors"],
                         record["hand_intrinsics"],
@@ -652,7 +652,7 @@ class Datastore:
                                         dorsiflexor_score,
                                         plantar_flexor_score,
                                         appointment_id)
-            VALUES(:hip_flexor_score,
+                                VALUES(:hip_flexor_score,
                                         :knee_flexor_score,
                                         :dorsiflexor_score,
                                         :plantar_flexor_score,

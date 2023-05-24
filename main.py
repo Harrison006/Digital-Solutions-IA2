@@ -313,14 +313,14 @@ class MainWindow:
     def insert_OT_results(self):
         patient_id = self.ui.physio_patient_id_lbl_2.text()
         appointment_date = self.ui.physio_appointment_date_lbl_2.text()
-        appointment_date = str(appointment_date)
+        appointment_date = str(appointment_date)    # calling all the vars that need to be displayed
         appointment_time = self.ui.physio_appointment_time_lbl_2.text()
-        shoulder_abductors_score = self.ui.comboBox_7.currentText()
-        elbow_flexors_score = self.ui.comboBox_8.currentText()
-        elbow_extensors_score = self.ui.comboBox_9.currentText()
-        wrist_extensors_score = self.ui.comboBox_10.currentText()
-        finger_flexors_score = self.ui.comboBox_11.currentText()
-        hand_intrinsics_score = self.ui.comboBox_12.currentText()
+        shoulder_abductors_score = self.ui.should_abd_score_lbl.currentText()
+        elbow_flexors_score = self.ui.flexor_score_lbl.currentText() # displaying these as the values they are in the database
+        elbow_extensors_score = self.ui.elb_extensor_score_lbl.currentText()
+        wrist_extensors_score = self.ui.wrist_ext_score_lbl.currentText()
+        finger_flexors_score = self.ui.finger_flexor_score_lbl.currentText()
+        hand_intrinsics_score = self.ui.hand_intrisics_score_lbl.currentText()
         print(patient_id, appointment_date, appointment_time)
         self.db.add_OT_results(
             patient_id,
@@ -328,7 +328,7 @@ class MainWindow:
             appointment_time,
             shoulder_abductors_score,
             elbow_flexors_score,
-            elbow_extensors_score,
+            elbow_extensors_score, # adding OT results into the database from the UI
             wrist_extensors_score,
             finger_flexors_score,
             hand_intrinsics_score,
@@ -340,9 +340,9 @@ class MainWindow:
         appointment_date = str(appointment_date)
         appointment_time = self.ui.physio_appointment_time_lbl.text()
         Hip_flexor_score = self.ui.comboBox_3.currentText()
-        Knee_externsors_score = self.ui.comboBox_4.currentText()
-        Dorsiflexors_score = self.ui.comboBox_5.currentText()
-        Plantar_flexors_score = self.ui.comboBox_6.currentText()
+        Knee_externsors_score = self.ui.knee_extensors_score_lbl.currentText()
+        Dorsiflexors_score = self.ui.dorsiflexors_score_lbl.currentText()
+        Plantar_flexors_score = self.ui.plantar_flexors_score_lbl.currentText()
 
         self.db.add_physio_results(
             patient_id,
