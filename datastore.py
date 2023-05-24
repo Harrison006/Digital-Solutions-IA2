@@ -218,12 +218,12 @@ class Datastore:
 
     # Adding in Mocked up data for UI testing
 
-    def add_data(self):
+    def add_user_1(self):
         self.cursor.execute(
             """
             INSERT INTO clinician_tb(name,username,password,clinician,practice_administrator)
-            VALUES("James","Doe","1234",1,0)
-            """
+            VALUES("James","Doe","1234",1,0) 
+            """ # adding in a user that is able to login to demonstrate and test functions of the application
         )
 
     def add_data_2(self):
@@ -280,8 +280,8 @@ class Datastore:
             """
             SELECT patient_id
             FROM patient_tb
-            WHERE first_name = :first_name AND last_name = :last_name
-            """,
+            WHERE first_name = :first_name AND last_name = :last_name 
+            """, # matching the first and last name from the UI to get the ID
             {"first_name": first_name, "last_name": last_name},
         )
         results = self.cursor.fetchone()
@@ -292,12 +292,12 @@ class Datastore:
             """
             SELECT first_name + last_name as name
             FROM patient_tb
-            """
+            """ # getting all the patient names on the table
         )
         results = self.cursor.fetchall()
         processed = []
         for results in results:
-            processed.append(results[0])
+            processed.append(results[0]) # printing the results as a tuple
         return processed
 
     def get_appointment_id(self, date, patient_id):
@@ -355,8 +355,8 @@ class Datastore:
             """
             SELECT shoulder_abductors_score,elbow_flexors_score,elbow_extensors_score,wrist_extensors_score,finger_flexors_score,hand_intrinsics_score
             FROM ot_assessments_score_tb
-            WHERE appointment_id = :appointment_id
-            """,
+            WHERE appointment_id = :appointment_id 
+            """, # getting the OT_results from the appointment_id inputed in the UI
             {"appointment_id": appointment_id},
         )
         results = self.cursor.fetchall()
@@ -368,7 +368,7 @@ class Datastore:
             SELECT aphasia_score,apraxia_score,dysathria_score,dysphoria_score,memory_score,attention_score,judgment_score,neglect_score
             FROM speech_assessments_score_tb
             WHERE appointment_id = :appointment_id
-            """,
+            """,# getting the speach_results from the appointment_id inputed in the UI
             {"appointment_id": appointment_id},
         )
         results = self.cursor.fetchall()
@@ -444,13 +444,13 @@ class Datastore:
             from appointment_tb
             WHERE patient_id = :patient_id
             """,
-            {"patient_id": patient_id},
+            {"patient_id": patient_id}, # getting the appointment time from the patient ID
         )
         results = self.cursor.fetchall()
         processed = []
         for results in results:
             processed.append(results[0])
-        return processed
+        return processed # returning the results in a touple
 
     def get_amount_of_previous_regimes(self, patient_id):
         self.cursor.execute(
@@ -641,7 +641,7 @@ class Datastore:
         self,
         hip_flexor_score,
         knee_flexor_score,
-        dorsiflexor_score,
+        dorsiflexor_score,          # these functions are defined in the UI
         plantar_flexor_score,
         appointment_id,
     ):
@@ -661,7 +661,7 @@ class Datastore:
             {
                 "hip_flexor_score": hip_flexor_score,
                 "knee_flexor_score": knee_flexor_score,
-                "dorsiflexor_score": dorsiflexor_score,
+                "dorsiflexor_score": dorsiflexor_score, # defining this var in the SQL function
                 "plantar_flexor_score": plantar_flexor_score,
                 "appointment_id": appointment_id,
             },
@@ -671,9 +671,9 @@ class Datastore:
         self,
         shoulder_abductors_score,
         elbow_flexors_score,
-        elbow_extensors_score,
-        wrist_extensors_score,
-        finger_flexors_score,
+        elbow_extensors_score, # these functions are defined in the UI
+        wrist_extensors_score, # its important that the data inputted is valid
+        finger_flexors_score,  # the validation will happen in the UI file
         hand_intrinsics_score,
         appointment_id,
     ):
@@ -686,14 +686,14 @@ class Datastore:
                                         finger_flexors_score,
                                         hand_intrinsics_score,
                                         appointment_id)
-            VALUES(:shoulder_abductors_score,
+            VALUES(:shoulder_abductors_score, 
                                         :elbow_flexors_score,
                                         :elbow_extensors_score,
                                         :wrist_extensors_score,
                                         :finger_flexors_score,
                                         :hand_intrinsics_score,
                                         :appointment_id)
-            """,
+            """, # these values come from the UI and then interpreted by the main.py file
             {
                 "shoulder_abductors_score": shoulder_abductors_score,
                 "elbow_flexors_score": elbow_flexors_score,
@@ -702,7 +702,7 @@ class Datastore:
                 "finger_flexors_score": finger_flexors_score,
                 "hand_intrinsics_score": hand_intrinsics_score,
                 "appointment_id": appointment_id,
-            },
+            }, # parsing the vars into the sql functions
         )
 
     def add_patient_detials(
